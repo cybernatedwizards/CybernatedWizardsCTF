@@ -24,7 +24,7 @@ release/time_machine
 
 In order to start solving the task, we needed to understand what the ``time_machine`` does. We spent quite some time in Ida and Ghidra to determine what is going on, but debugging this in GDB was a pain, due to the forking and ptrace capabilities of the executable. This is why we have rewritten the entire logic of the ``time_machine`` manually in C, which is provided below.
 
-```
+```c
 #include <cstdio>
 #include <cstdlib>
 #include <stdlib.h>
@@ -464,7 +464,7 @@ At this point we've been pretty close to the solution, all we needed to figure o
 
 Also, we can't save them into any general purpose or floating point register, because those are all zeroed out by the debugger. So where can we actually save the random value that we need to preserve. The following registers are all zeroed out:
 
-```
+```c
 struct user_fpregs_struct
 {
   __uint16_t                cwd;
@@ -514,7 +514,7 @@ struct user_regs_struct
 
 We can rely on the fact that there are 64-bit XMM0 - XMM15 floating point registers and their counterpart 256-bit YMM0 - YMM15 floating point registers. We can see that the higher 64-bits of the YMM0 - YMM15 registers are not cleared, so we can store the cookie in there. We can basically use the following shellcode:
 
-```
+```asm
 [BITS 64]
 
 global _start
@@ -866,7 +866,7 @@ hitcon{FLAG}
 
 Next we only need to obtain the actual flag from the provided server for which we can use a modified version of the [Gynvael Coldwind](https://gynvael.coldwind.pl/) [pwnbase.py](https://github.com/gynvael/stream-en/blob/master/065-tooooo/pwnbase.py) script. Our version is provided below:
 
-```
+```python
 #!/usr/bin/python
 import os
 import sys
@@ -972,6 +972,4 @@ Shellcode receieved. Launching Time Machine..
 Perfect.
 
 hitcon{whats happened happened, this is the mechanism of the world}
-
-
 ```
