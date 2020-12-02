@@ -975,3 +975,43 @@ hitcon{whats happened happened, this is the mechanism of the world}
 ```
 
 That's it, the solution to the tenet task.
+
+
+Another Solution
+----------------
+
+Another shellcode solutioh was provided by **enedil** on IRC channel (if somebody knows his real name or blog, let me know and I'll add the link to his blog). The solution he provided is based on the fact that we control only the RIP values that are saved and then later replayed in reverse. Therefore, we control the RIP values that will be executed.
+
+```asm
+[BITS 64]
+%macro check_bit 1
+    mov rcx, 1
+    shl rcx, %1
+    test rcx, rsi
+    jz %%skip
+    or rsi, rcx
+    shl rcx, %1
+    mov rcx, 1
+    %%skip:
+%endmacro
+
+xor esi, esi
+mov rdi, [0x2170000]
+mov [0x2170000], rsi
+mov rsi, rdi
+mov rdi, rsi
+
+%assign i 0
+%rep    4
+    check_bit i
+%assign i i+1
+%endrep
+
+mov rdi, 0
+mov rax, 60
+syscall
+```
+
+In this solution we basically test if certain bit in the value is set and if yes, we execute the **OR** instruction, which will set a certain bit in the value when going backwards, otherwise we jump over that part of the code and the bit will not be set. Since the cookie is a 64-bit value, we need to repeat the loop 64 times in order to set every bit of the value when going backwards.
+
+
