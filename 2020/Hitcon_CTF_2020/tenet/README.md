@@ -980,7 +980,7 @@ That's it, the solution to the tenet task.
 Another Solution
 ----------------
 
-Another shellcode solutioh was provided by **enedil** on IRC channel (if somebody knows his real name or blog, let me know and I'll add the link to his blog). The solution he provided is based on the fact that we control only the RIP values that are saved and then later replayed in reverse. Therefore, we control the RIP values that will be executed.
+Another shellcode solutioh was provided by [enedil](https://gist.github.com/enedil/596154c276497d24169e57bd209355a8) on IRC channel (if somebody knows his real name or blog, let me know and I'll add the link to his blog). The solution he provided is based on the fact that we control only the RIP values that are saved and then later replayed in reverse. Therefore, we control the RIP values that will be executed.
 
 ```asm
 [BITS 64]
