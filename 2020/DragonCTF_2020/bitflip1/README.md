@@ -148,7 +148,7 @@ b'AQ=='
 
 This gets us the following, where the number of iterations differ greatly, but the problem is that we cannot obtain the first bit.
 
-.. figure:: first_bit.png
+![First Bit](first_bit.png)
 
 However what if we instead XOR ``alice_seed`` with a 2-bit input value, where we need to generate two values with the n-th bit set to 0 and 1, while the rest of the previous bits have already been identifier (we need to go in turn). This means we need to send in the value ``0b00`` and ``0b10`` and we get the following base64 values:
 
@@ -161,7 +161,7 @@ b'Ag=='
 
 When sending in these two values, we notice that the number of iterations has changed by exactly a single iteration.
 
-.. figure:: second_bit.png
+![Second Bit](second_bit.png)
 
 We can see than when the second bit is set, the input value will result in more iterations being required to get to the primer number. Let's see what this means by looking at the simple example where the ``alice_seed`` is an 8-bit random value ``0b10111010`` (decimal 186):
 
@@ -199,7 +199,7 @@ b'Bg=='
 
 If we sent it to the task, we can see that the number of iterations not differs by 2, but the 0b110 requires less number of iterations, so the actual value of the third bit is 0.
 
-.. figure:: third_bit.png
+![Third Bit](third_bit.png)
 
 Now the value of the seed is known to be 0b010, so we can continue with the forth bit.
 
@@ -212,7 +212,7 @@ b'Cg=='
 
 Now the number of iterations differ by 4 and the 0b1010 requires more iterations, meaning the forth bit is set to 1.
 
-.. figure:: forth_bit.png
+![Forth Bit](forth_bit.png)
 
 We can continue with this approach manually, but we can see that the number of iterations does not differ by 1 all the time, but actually differs by the 2^(i-1), which is exactly the bit that is being set. Also this will work for the beginning LSB bits, but will not work for most of the bits, because as soon as we start computing values larger than 2**9, we'll start hitting the next prime number, not the prime that we're targetting. This means that we cannot use this approach for all of the bits, but let's see how we can modify our approach a little bit to be able to get all the bits.
 
@@ -304,7 +304,7 @@ if __name__ == '__main__':
 
 If we run the above script, we will quickly reverse the value of the ``alice_seed``:
 
-.. figure:: alice_seed.png
+![Alice Seed](alice_seed.png)
 
 Afterwards, things are pretty straighforward and we can simply re-use both the ``Rng`` and ``DiffieHellman`` classes to perform the initialization of object ``alice`` through which the decryption key ``alice.shared`` is computed automatically - we don't need to do anything to get it except instantiate a ``DiffieHellman`` class with the previously computed seed.
 
