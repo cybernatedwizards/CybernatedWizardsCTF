@@ -458,7 +458,6 @@ if __name__ == '__main__':
 
 The following shows an example of running the script and obtaining the flag:
 
-.. code-block:: text
 
 ```
 # python sol.py
@@ -978,3 +977,8 @@ Generated after 43 iterations
 b'DrgnS{T1min9_4ttack_f0r_k3y_generation}\n        '
 ```
 
+This brings us to the final solution:
+
+```
+b'DrgnS{T1min9_4ttack_f0r_k3y_generation}\n        '
+```
